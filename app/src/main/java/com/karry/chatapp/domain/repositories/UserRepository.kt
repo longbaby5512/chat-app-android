@@ -1,6 +1,6 @@
 package com.karry.chatapp.domain.repositories
 
-import com.karry.chatapp.data.dto.response.UserResponse
+import com.karry.chatapp.data.remote.dto.response.UserResponse
 
 interface UserRepository {
     suspend fun getAllUsers(token: String): List<UserResponse>

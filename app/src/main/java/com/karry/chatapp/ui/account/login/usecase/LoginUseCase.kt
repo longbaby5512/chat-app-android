@@ -1,7 +1,7 @@
 package com.karry.chatapp.ui.account.login.usecase
 
-import com.karry.chatapp.data.dto.request.LoginRequest
-import com.karry.chatapp.data.dto.response.LoginResponse
+import com.karry.chatapp.data.remote.dto.request.LoginRequest
+import com.karry.chatapp.data.remote.dto.response.LoginResponse
 import com.karry.chatapp.domain.repositories.AuthRepository
 import com.karry.chatapp.utils.Resource
 import kotlinx.coroutines.flow.Flow

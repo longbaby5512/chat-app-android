@@ -3,10 +3,10 @@ package com.karry.chatapp.ui.chat.chat.usecase
 import android.text.TextUtils
 import com.karry.chaotic.Chaotic
 import com.karry.chaotic.ECDH
-import com.karry.chaotic.extentions.fromBase64Url
-import com.karry.chaotic.extentions.toBase64Url
+import com.karry.chaotic.extentions.fromBase64
+import com.karry.chaotic.extentions.toBase64
 import com.karry.chatapp.ChatApplication
-import com.karry.chatapp.data.dto.response.toMessage
+import com.karry.chatapp.data.remote.dto.response.toMessage
 import com.karry.chatapp.domain.model.Message
 import com.karry.chatapp.domain.repositories.AuthRepository
 import com.karry.chatapp.utils.KEY_FINAL
@@ -38,19 +38,19 @@ class GetAllMessagesUseCase @Inject constructor(
                 var key = storage.get(keyStore, String::class.java)
                 Timber.d(
                     "Our Private: ${
-                        ChatApplication.key!!.privateKey!!.fromBase64Url().toHex()
-                    }, Their Public: ${publicKey.fromBase64Url().toHex()}"
+                        ChatApplication.key!!.privateKey!!.fromBase64().toHex()
+                    }, Their Public: ${publicKey.fromBase64().toHex()}"
                 )
                 if (TextUtils.isEmpty(key)) {
                     val shareSecret =
                         ECDH.generateSecretKey(ChatApplication.key!!.privateKey!!, publicKey)
-                            .toBase64Url()
-                    Timber.d("Share Secret: ${shareSecret.fromBase64Url().toHex()}")
+                            .toBase64()
+                    Timber.d("Share Secret: ${shareSecret.fromBase64().toHex()}")
                     key = ECDH.generateFinalKey(
                         ChatApplication.key!!.publicKey,
                         publicKey,
                         shareSecret
-                    ).toBase64Url()
+                    ).toBase64()
                 }
 
                 if (TextUtils.isEmpty(key)) {
@@ -58,14 +58,14 @@ class GetAllMessagesUseCase @Inject constructor(
                     return@flow
                 }
 
-                Timber.e("Final key: ${key.fromBase64Url().toHex()} at keyStore: $keyStore")
+                Timber.e("Final key: ${key.fromBase64().toHex()} at keyStore: $keyStore")
                 storage.set(keyStore, key)
                 val response = authRepository.getAllMessages(bearerToken, id)
                 if (response.isNotEmpty()) {
                     emit(Resource.Success(response.map {
                         val content = it.content
-                        chaotic.init(Cipher.DECRYPT_MODE, key.fromBase64Url())
-                        val decryptedContent = chaotic.doFinal(content.fromBase64Url())
+                        chaotic.init(Cipher.DECRYPT_MODE, key.fromBase64())
+                        val decryptedContent = chaotic.doFinal(content.fromBase64())
                         Timber.e("cypherContent $content decryptedContent: $decryptedContent")
                         return@map it.copy(content = String(decryptedContent))
                             .toMessage()

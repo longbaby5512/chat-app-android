@@ -1,6 +1,6 @@
 package com.karry.chatapp.ui.chat.user_list.usecase
 
-import com.karry.chatapp.data.dto.response.toUser
+import com.karry.chatapp.data.remote.dto.response.toUser
 import com.karry.chatapp.domain.model.User
 import com.karry.chatapp.domain.repositories.UserRepository
 import com.karry.chatapp.utils.Resource

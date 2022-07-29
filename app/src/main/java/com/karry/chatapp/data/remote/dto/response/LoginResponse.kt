@@ -1,4 +1,4 @@
-package com.karry.chatapp.data.dto.response
+package com.karry.chatapp.data.remote.dto.response
 
 
 import android.os.Parcelable
@@ -9,16 +9,17 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class UserResponse(
+data class LoginResponse(
     @SerializedName("email") val email: String = "",
     @SerializedName("id") val id: Int = 0,
+    @SerializedName("key") val key: KeyResponse = KeyResponse(),
     @SerializedName("name") val name: String = "",
-    @SerializedName("publicKey") val publicKey: String = ""
+    @SerializedName("token") val token: String = "",
+    @SerializedName("refreshToken") val refreshToken: String = "",
 ) : Parcelable
 
-fun UserResponse.toUser() = User(
+fun LoginResponse.toUser() = User(
     email = email,
     id = id,
-    name = name,
-    publicKey = publicKey
+    name = name
 )

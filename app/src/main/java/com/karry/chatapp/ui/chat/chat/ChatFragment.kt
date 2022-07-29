@@ -2,6 +2,8 @@ package com.karry.chatapp.ui.chat.chat
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,6 +19,7 @@ import com.karry.chatapp.domain.model.Message
 import com.karry.chatapp.domain.model.MessageType
 import com.karry.chatapp.domain.model.User
 import com.karry.chatapp.ui.chat.chat.adapter.ChatAdapter
+import com.karry.chatapp.utils.extentions.setTitle
 import com.karry.chatapp.utils.extentions.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -25,8 +28,11 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class ChatFragment : Fragment(R.layout.fragment_chat) {
-    private val binding: FragmentChatBinding by viewBinding()
-    private lateinit var adapter: ChatAdapter
+    private val binding: FragmentChatBinding by viewBinding() {
+        viewModel.disconnectSocket()
+        adapter = null
+    }
+    private var adapter: ChatAdapter? = null
     private val viewModel: ChatViewModel by viewModels()
     private lateinit var messages: List<Message>
 
@@ -36,10 +42,14 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         adapter = ChatAdapter(currentUser!!.id) {
 
         }
+
+        setTitle(toUser.name)
+
 
         viewModel.connectSocket()
         with(binding) {
@@ -66,6 +76,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         }
     }
 
+
     private fun loadMessages() {
         viewModel.getAllMessages(accessToken!!, toUser.id, toUser.publicKey!!)
 
@@ -79,7 +90,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                     Timber.d("Messages: $messages")
                     if (messages.isNotEmpty()) {
                         this@ChatFragment.messages = messages
-                        adapter.submitList(messages)
+                        adapter!!.submitList(messages)
                     }
 
                     if (!TextUtils.isEmpty(error)) {
@@ -103,8 +114,11 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.disconnectSocket()
+    @Deprecated("Deprecated in Java",
+        ReplaceWith("inflater.inflate(R.menu.menu_main, menu)", "com.karry.chatapp.R")
+    )
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.chat_menu, menu)
     }
+
 }

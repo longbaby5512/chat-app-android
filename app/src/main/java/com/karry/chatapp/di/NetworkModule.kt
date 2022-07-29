@@ -3,9 +3,9 @@ package com.karry.chatapp.di
 import com.google.gson.Gson
 import com.karry.chatapp.BuildConfig
 import com.karry.chatapp.ChatApplication
-import com.karry.chatapp.data.api.AuthApi
-import com.karry.chatapp.data.api.ChatService
-import com.karry.chatapp.data.api.UserApi
+import com.karry.chatapp.data.remote.api.AuthApi
+import com.karry.chatapp.data.remote.api.ChatService
+import com.karry.chatapp.data.remote.api.UserApi
 import com.karry.chatapp.data.repositories.AuthRepositoryImpl
 import com.karry.chatapp.data.repositories.UserRepositoryImpl
 import com.karry.chatapp.domain.repositories.AuthRepository

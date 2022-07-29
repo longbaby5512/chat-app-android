@@ -4,21 +4,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karry.chaotic.Chaotic
 import com.karry.chaotic.ECDH
-import com.karry.chaotic.extentions.fromBase64Url
-import com.karry.chaotic.extentions.toBase64Url
-import com.karry.chatapp.data.dto.request.LoginRequest
-import com.karry.chatapp.data.dto.response.toKey
-import com.karry.chatapp.data.dto.response.toUser
+import com.karry.chaotic.extentions.fromBase64
+import com.karry.chaotic.extentions.toBase64
+import com.karry.chatapp.data.remote.dto.request.LoginRequest
+import com.karry.chatapp.data.remote.dto.response.toKey
+import com.karry.chatapp.data.remote.dto.response.toUser
 import com.karry.chatapp.domain.model.Key
 import com.karry.chatapp.ui.account.login.usecase.LoginUseCase
 import com.karry.chatapp.utils.Resource
-import com.karry.chatapp.utils.extentions.toHex
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import timber.log.Timber
 import javax.crypto.Cipher
 import javax.inject.Inject
 
@@ -35,8 +33,8 @@ class LoginViewModel @Inject constructor(
 
         cypher.init(Cipher.ENCRYPT_MODE, password.toByteArray())
 
-        val publicKey = ecdh.publicKey.toBase64Url()
-        val privateKey = cypher.doFinal(ecdh.privateKey).toBase64Url()
+        val publicKey = ecdh.publicKey.toBase64()
+        val privateKey = cypher.doFinal(ecdh.privateKey).toBase64()
 
         val key = Key(
             privateKey = privateKey,
@@ -48,26 +46,17 @@ class LoginViewModel @Inject constructor(
         loginUseCase(loginRequest).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    val privateKeyResponse = result.data.key.privateKey.fromBase64Url()
-                    Timber.d(
-                        "After: Private: ${privateKeyResponse.toHex()}, Public: ${
-                            result.data.key.publicKey.fromBase64Url().toHex()
-                        }"
-                    )
+                    val privateKeyResponse = result.data.key.privateKey.fromBase64()
                     cypher.init(Cipher.DECRYPT_MODE, password.toByteArray())
 
                     val decryptedPrivateKeyResponse = cypher.doFinal(privateKeyResponse)
-                    Timber.d(
-                        "After: Private: ${decryptedPrivateKeyResponse.toHex()}, Public: ${
-                            result.data.key.publicKey.fromBase64Url().toHex()
-                        }"
-                    )
                     _state.value = state.value.copy(
                         isLoading = false,
                         user = result.data.toUser(),
-                        key = result.data.key.copy(privateKey = decryptedPrivateKeyResponse.toBase64Url())
+                        key = result.data.key.copy(privateKey = decryptedPrivateKeyResponse.toBase64())
                             .toKey(),
-                        token = result.data.token
+                        token = result.data.token,
+                        refreshToken = result.data.refreshToken
                     )
                 }
                 is Resource.Error -> {

@@ -1,4 +1,4 @@
-package com.karry.chatapp.data.dto.response
+package com.karry.chatapp.data.remote.dto.response
 
 import android.os.Parcelable
 import androidx.annotation.Keep

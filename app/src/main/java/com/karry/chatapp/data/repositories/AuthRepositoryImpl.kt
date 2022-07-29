@@ -1,10 +1,10 @@
 package com.karry.chatapp.data.repositories
 
-import com.karry.chatapp.data.api.AuthApi
-import com.karry.chatapp.data.dto.request.CreateUserRequest
-import com.karry.chatapp.data.dto.request.LoginRequest
-import com.karry.chatapp.data.dto.response.LoginResponse
-import com.karry.chatapp.data.dto.response.MessageResponse
+import com.karry.chatapp.data.remote.api.AuthApi
+import com.karry.chatapp.data.remote.dto.request.CreateUserRequest
+import com.karry.chatapp.data.remote.dto.request.LoginRequest
+import com.karry.chatapp.data.remote.dto.response.LoginResponse
+import com.karry.chatapp.data.remote.dto.response.MessageResponse
 import com.karry.chatapp.domain.repositories.AuthRepository
 import javax.inject.Inject
 
@@ -25,7 +25,8 @@ class AuthRepositoryImpl @Inject constructor(private val authApi: AuthApi) : Aut
         return authApi.getAllMessages(token, id)
     }
 
-    override suspend fun getFinalKey(token: String, theirPublicKey: String): String {
-        return authApi.getFinalKey(token, theirPublicKey)
+    override suspend fun logout(token: String) {
+        return authApi.logout(token)
     }
+
 }
