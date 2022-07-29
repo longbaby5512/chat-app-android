@@ -1,6 +1,6 @@
 package com.karry.chaotic
 
-import com.karry.chaotic.extentions.fromBase64Url
+import com.karry.chaotic.extentions.fromBase64
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.nio.ByteBuffer
 import java.security.*
@@ -38,17 +38,17 @@ class ECDH(password: String) {
 
             val factory = KeyFactory.getInstance("ECDH", bouncyCastleProvider)
             val keyAgreement = KeyAgreement.getInstance("ECDH", bouncyCastleProvider)
-            keyAgreement.init(factory.generatePrivate(PKCS8EncodedKeySpec(outPrivateKey.fromBase64Url())))
-            keyAgreement.doPhase(factory.generatePublic(X509EncodedKeySpec(theirPublicKey.fromBase64Url())), true)
+            keyAgreement.init(factory.generatePrivate(PKCS8EncodedKeySpec(outPrivateKey.fromBase64())))
+            keyAgreement.doPhase(factory.generatePublic(X509EncodedKeySpec(theirPublicKey.fromBase64())), true)
             return keyAgreement.generateSecret()
         }
 
         @JvmStatic
         fun generateFinalKey(outPublicKey: String, theirPublicKey: String, shareSecretKey: String): ByteArray {
             val sha256 = MessageDigest.getInstance("SHA-256")
-            val outPublicKeyBytes = outPublicKey.fromBase64Url()
-            val theirPublicKeyBytes = theirPublicKey.fromBase64Url()
-            val shareSecretKeyBytes = shareSecretKey.fromBase64Url()
+            val outPublicKeyBytes = outPublicKey.fromBase64()
+            val theirPublicKeyBytes = theirPublicKey.fromBase64()
+            val shareSecretKeyBytes = shareSecretKey.fromBase64()
             val listSortKey = ByteBuffer.allocate(outPublicKeyBytes.size + theirPublicKeyBytes.size + shareSecretKeyBytes.size).put(outPublicKeyBytes).put(theirPublicKeyBytes).put(shareSecretKeyBytes).array().toList().sorted().toByteArray()
             sha256.update(listSortKey)
             return sha256.digest()

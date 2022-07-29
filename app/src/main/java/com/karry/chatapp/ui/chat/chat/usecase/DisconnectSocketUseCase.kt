@@ -1,6 +1,6 @@
 package com.karry.chatapp.ui.chat.chat.usecase
 
-import com.karry.chatapp.data.api.ChatService
+import com.karry.chatapp.data.remote.api.ChatService
 import javax.inject.Inject
 
 class DisconnectSocketUseCase @Inject constructor(

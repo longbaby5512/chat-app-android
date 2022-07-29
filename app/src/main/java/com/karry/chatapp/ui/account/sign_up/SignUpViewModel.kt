@@ -2,7 +2,7 @@ package com.karry.chatapp.ui.account.sign_up
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karry.chatapp.data.dto.request.CreateUserRequest
+import com.karry.chatapp.data.remote.dto.request.CreateUserRequest
 import com.karry.chatapp.ui.account.sign_up.usecase.SignUpUseCase
 import com.karry.chatapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

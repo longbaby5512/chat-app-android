@@ -1,7 +1,7 @@
-package com.karry.chatapp.data.api
+package com.karry.chatapp.data.remote.api
 
-import com.karry.chatapp.data.dto.request.MessageSent
-import com.karry.chatapp.data.dto.response.MessageResponse
+import com.karry.chatapp.data.remote.dto.request.MessageSent
+import com.karry.chatapp.data.remote.dto.response.MessageResponse
 import com.karry.chatapp.utils.RECEIVE_MESSAGE
 import com.karry.chatapp.utils.SEND_MESSAGE
 import com.semicolon.cocket.annotation.*

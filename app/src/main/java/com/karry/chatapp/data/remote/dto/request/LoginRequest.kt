@@ -1,4 +1,4 @@
-package com.karry.chatapp.data.dto.request
+package com.karry.chatapp.data.remote.dto.request
 
 import com.karry.chatapp.domain.model.Key
 

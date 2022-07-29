@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.text.method.PasswordTransformationMethod
 import android.view.View
+import androidx.activity.OnBackPressedDispatcher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.hoc081098.viewbindingdelegate.viewBinding
 import com.karry.chatapp.R
 import com.karry.chatapp.databinding.FragmentSignUpBinding
-import com.karry.chatapp.ui.navigations.signUpToLogin
 import com.karry.chatapp.utils.extentions.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +34,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
         with(binding) {
             btnToLogin.setOnClickListener {
-                signUpToLogin()
+                activity?.onBackPressed()
             }
 
             btnSignUpShowPassword.setOnClickListener {
@@ -111,7 +111,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                     loading(isLoading)
                     if (isSuccess) {
                         toast("Sign up success")
-                        signUpToLogin()
+                        activity?.onBackPressed()
                     }
 
                     if (error != null) {

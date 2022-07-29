@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "776697726614",
+    "project_id": "chat-app-d3d43",
+    "storage_bucket": "chat-app-d3d43.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776697726614:android:b37d0c945e4fe7cffa24b7",
+        "android_client_info": {
+          "package_name": "com.karry.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776697726614-c9rsotd68q0h2vp0apbb5qpd2q3k435m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.karry.chatapp",
+            "certificate_hash": "88a8cc72fa5c89e1a8174715bd1885598a543c25"
+          }
+        },
+        {
+          "client_id": "776697726614-leqchp33k1bd2cfjfknnv42bite3n9dq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvNix-azURiqMsVv15RivQ083d66h4GOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776697726614-leqchp33k1bd2cfjfknnv42bite3n9dq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

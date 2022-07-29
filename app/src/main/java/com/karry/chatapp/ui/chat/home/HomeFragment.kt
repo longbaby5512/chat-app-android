@@ -1,14 +1,18 @@
 package com.karry.chatapp.ui.chat.home
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.hoc081098.viewbindingdelegate.viewBinding
 import com.karry.chaotic.Chaotic
+import com.karry.chatapp.ChatApplication
 import com.karry.chatapp.R
 import com.karry.chatapp.databinding.FragmentHomeBinding
-import com.karry.chatapp.ui.navigations.homeToUserList
+import com.karry.chatapp.utils.extentions.setTitle
 import com.karry.chatapp.utils.extentions.showActionBar
 import com.karry.chatapp.utils.storage.Storage
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,9 +34,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+
+        setTitle(ChatApplication.currentUser?.name ?: getString(R.string.app_name))
+
         with(binding) {
             btnNewMessage.setOnClickListener {
-                homeToUserList()
+                findNavController().navigate(R.id.action_homeFragment_to_userListFragment)
             }
         }
 
@@ -51,9 +59,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
+    @Deprecated("Deprecated in Java",
+        ReplaceWith("inflater.inflate(R.menu.menu_main, menu)", "com.karry.chatapp.R")
+    )
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+    }
+
     override fun onResume() {
         super.onResume()
         showActionBar()
     }
+
 
 }

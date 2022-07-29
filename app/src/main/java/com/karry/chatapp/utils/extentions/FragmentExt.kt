@@ -1,5 +1,6 @@
 package com.karry.chatapp.utils.extentions
 
+import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 

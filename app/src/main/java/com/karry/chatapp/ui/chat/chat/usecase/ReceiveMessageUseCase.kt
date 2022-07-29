@@ -2,9 +2,9 @@ package com.karry.chatapp.ui.chat.chat.usecase
 
 import android.text.TextUtils
 import com.karry.chaotic.Chaotic
-import com.karry.chaotic.extentions.fromBase64Url
-import com.karry.chatapp.data.api.ChatService
-import com.karry.chatapp.data.dto.response.toMessage
+import com.karry.chaotic.extentions.fromBase64
+import com.karry.chatapp.data.remote.api.ChatService
+import com.karry.chatapp.data.remote.dto.response.toMessage
 import com.karry.chatapp.domain.model.Message
 import com.karry.chatapp.utils.KEY_FINAL
 import com.karry.chatapp.utils.Resource
@@ -31,10 +31,10 @@ class ReceiveMessageUseCase @Inject constructor(
                 emit(Resource.Error("Key is empty"))
                 return@collect
             }
-            Timber.d("Final key: ${key.fromBase64Url().toHex()} at $keyStore")
+            Timber.d("Final key: ${key.fromBase64().toHex()} at $keyStore")
             Timber.d("Message received before decrypt: ${it.content}")
-            cypher.init(Cipher.DECRYPT_MODE, key.fromBase64Url())
-            val decryptedMessage = cypher.doFinal(it.content.fromBase64Url())
+            cypher.init(Cipher.DECRYPT_MODE, key.fromBase64())
+            val decryptedMessage = cypher.doFinal(it.content.fromBase64())
             val message = it.copy(content = String(decryptedMessage)).toMessage()
             Timber.d("Message received after decrypt: ${message.content}")
             emit(Resource.Success(message))

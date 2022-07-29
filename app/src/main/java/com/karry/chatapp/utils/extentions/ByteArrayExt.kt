@@ -24,14 +24,3 @@ fun ByteArray.toBitmap(quality: Int): Bitmap {
 fun ByteArray.toHex(): String =
     joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }
 
-fun ByteArray.toBase64String(): String {
-    return Base64.getEncoder().encodeToString(this)
-}
-
-fun ByteArray.toBase64ByteArray(): ByteArray {
-    return Base64.getEncoder().encode(this)
-}
-
-fun ByteArray.fromBase64(): ByteArray {
-    return Base64.getDecoder().decode(this)
-}

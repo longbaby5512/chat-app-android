@@ -2,7 +2,7 @@ package com.karry.chatapp.ui.chat.chat
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karry.chatapp.data.dto.request.MessageSent
+import com.karry.chatapp.data.remote.dto.request.MessageSent
 import com.karry.chatapp.domain.model.MessageType
 import com.karry.chatapp.domain.model.toTypeString
 import com.karry.chatapp.ui.chat.chat.usecase.*

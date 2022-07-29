@@ -1,6 +1,6 @@
 package com.karry.chatapp.ui.account.sign_up.usecase
 
-import com.karry.chatapp.data.dto.request.CreateUserRequest
+import com.karry.chatapp.data.remote.dto.request.CreateUserRequest
 import com.karry.chatapp.domain.repositories.AuthRepository
 import com.karry.chatapp.utils.Resource
 import kotlinx.coroutines.flow.Flow

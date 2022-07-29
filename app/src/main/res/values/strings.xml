@@ -38,4 +38,6 @@
     <string name="example_message">Hello example</string>
     <string name="enter_the_message">Enter the message</string>
     <string name="empty">Empty</string>
+    <string name="info">Info</string>
+    <string name="call">Call</string>
 </resources>

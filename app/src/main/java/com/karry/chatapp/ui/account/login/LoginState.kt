@@ -8,5 +8,6 @@ data class LoginState(
     val user: User? = null,
     val key: Key? = null,
     val token: String? = null,
+    val refreshToken: String? = null,
     val error: String? = null
 )

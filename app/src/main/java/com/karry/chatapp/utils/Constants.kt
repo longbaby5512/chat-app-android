@@ -15,16 +15,19 @@ const val PUSH_TYPE_USER = 2
 const val NOTIFICATION_ID = 100
 const val NOTIFICATION_ID_BIG_IMAGE = 101
 
-const val BASE_URL = "https://chat-server-app-kenvy.herokuapp.com/"
+const val BASE_URL = "http://192.168.0.124:3000/v1/"
 
 const val SEND_MESSAGE = "send_message"
 const val RECEIVE_MESSAGE = "receive_message"
 
 const val SHARED_PREF_NAME = "secret_shared_prefs"
-const val KEY_USER_TOKEN = "access_token"
+const val KEY_ACCESS_TOKEN = "access_token"
+const val KEY_REFRESH_TOKEN = "refresh_token"
 const val KEY_CURRENT_USER = "current_user"
 const val KEY_SECRET_CRYPTO = "secret_crypto"
 const val KEY_NOTIFICATIONS = "notifications"
 const val KEY_DEVICE_TOKEN = "device_token"
 const val KEY_FINAL = "final"
+
+const val ONESIGNAL_APP_ID = "f1d68b59-ae50-4dc4-b9b7-38525de10dac"
 

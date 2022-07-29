@@ -1,7 +1,7 @@
 package com.karry.chatapp.data.repositories
 
-import com.karry.chatapp.data.api.UserApi
-import com.karry.chatapp.data.dto.response.UserResponse
+import com.karry.chatapp.data.remote.api.UserApi
+import com.karry.chatapp.data.remote.dto.response.UserResponse
 import com.karry.chatapp.domain.repositories.UserRepository
 import javax.inject.Inject
 

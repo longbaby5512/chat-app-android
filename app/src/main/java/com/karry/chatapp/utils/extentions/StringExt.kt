@@ -51,7 +51,7 @@ fun String.toTimeMiliSec(): Long {
     }
 }
 
-fun String .getBitmapFromURL(): Bitmap? {
+fun String.getBitmapFromURL(): Bitmap? {
     return try {
         val url = URL(this)
         val connection = url.openConnection()
@@ -72,16 +72,4 @@ fun String.toLocalDate(): String {
     val la = SimpleDateFormat(SOURCE_DATA_FORMATTER, Locale.getDefault())
     val date = ha.parse(this)!!
     return la.format(date)
-}
-
-fun String.toBase64String(): String {
-    return Base64.getEncoder().encodeToString(this.toByteArray())
-}
-
-fun String.toBase64ByteArray(): ByteArray {
-    return Base64.getEncoder().encode(this.toByteArray())
-}
-
-fun String.fromBase64(): ByteArray {
-    return Base64.getDecoder().decode(this)
 }

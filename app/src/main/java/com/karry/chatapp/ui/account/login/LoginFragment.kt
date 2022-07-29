@@ -5,29 +5,22 @@ import android.text.TextUtils
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.hoc081098.viewbindingdelegate.viewBinding
 import com.karry.chaotic.Chaotic
-import com.karry.chaotic.extentions.fromBase64Url
-import com.karry.chaotic.extentions.toBase64Url
 import com.karry.chatapp.ChatApplication
 import com.karry.chatapp.R
 import com.karry.chatapp.databinding.FragmentLoginBinding
-import com.karry.chatapp.domain.model.Key
-import com.karry.chatapp.ui.navigations.loginToHome
-import com.karry.chatapp.ui.navigations.loginToSignUp
-import com.karry.chatapp.utils.KEY_CURRENT_USER
-import com.karry.chatapp.utils.KEY_SECRET_CRYPTO
-import com.karry.chatapp.utils.KEY_USER_TOKEN
+import com.karry.chatapp.utils.*
 import com.karry.chatapp.utils.extentions.*
 import com.karry.chatapp.utils.storage.Storage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import javax.crypto.Cipher
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,7 +32,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     @Inject
     lateinit var cypher: Chaotic
 
-    private val loginViewModel: LoginViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by activityViewModels()
 
 
     private val binding by viewBinding<FragmentLoginBinding> {
@@ -51,10 +44,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         btnLoginGoogle.setOnClickListener(null)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         with(binding) {
             btnLoginShowPassword.setOnClickListener {
@@ -62,7 +53,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
 
             btnToSignUp.setOnClickListener {
-                loginToSignUp()
+                findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
             }
 
             btnToForgot.setOnClickListener {
@@ -129,14 +120,22 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         }
                     }
 
-                    if (user.isNotNull() && token.isNotNull() && !TextUtils.isEmpty(token)) {
+                    if (user.isNotNull() && token.isNotNull() && !TextUtils.isEmpty(token) && !TextUtils.isEmpty(refreshToken)) {
                         storage.set(KEY_CURRENT_USER, user!!)
-                        storage.set(KEY_USER_TOKEN, token!!)
+                        storage.set(KEY_ACCESS_TOKEN, token!!)
                         storage.set(KEY_SECRET_CRYPTO, key!!)
+                        storage.set(KEY_REFRESH_TOKEN, refreshToken!!)
                         ChatApplication.currentUser = user
                         ChatApplication.accessToken = token
                         ChatApplication.key = key
-                        loginToHome()
+                        ChatApplication.refreshToken = refreshToken
+                        findNavController().popBackStack()
+                        val navOptions = navOptions {
+                            popUpTo(R.id.homeFragment) {
+                                inclusive = true
+                            }
+                        }
+                        findNavController().navigate(R.id.homeFragment, null, navOptions)
                     }
                 }
             }
