@@ -29,7 +29,6 @@ import timber.log.Timber
 @AndroidEntryPoint
 class ChatFragment : Fragment(R.layout.fragment_chat) {
     private val binding: FragmentChatBinding by viewBinding() {
-        viewModel.disconnectSocket()
         adapter = null
     }
     private var adapter: ChatAdapter? = null
@@ -50,8 +49,6 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
         setTitle(toUser.name)
 
-
-        viewModel.connectSocket()
         with(binding) {
             val llm = LinearLayoutManager(context)
             llm.stackFromEnd = true

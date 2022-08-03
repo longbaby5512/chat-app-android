@@ -92,11 +92,11 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                 return
             }
 
-//            if (!password.passwordValidator()) {
-//                toast("Password is too weak")
-//                edtSignUpPassword.requestFocus()
-//                return
-//            }
+            if (!password.passwordValidator()) {
+                toast("Password is too weak")
+                edtSignUpPassword.requestFocus()
+                return
+            }
 
             signUp(name, email, password)
 

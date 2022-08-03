@@ -10,8 +10,8 @@ import com.karry.chatapp.data.repositories.AuthRepositoryImpl
 import com.karry.chatapp.data.repositories.UserRepositoryImpl
 import com.karry.chatapp.domain.repositories.AuthRepository
 import com.karry.chatapp.domain.repositories.UserRepository
+import com.karry.chatapp.socketio.SocketClient
 import com.karry.chatapp.utils.BASE_URL
-import com.semicolon.cocket.CocketClient
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -89,16 +89,16 @@ abstract class NetworkModule {
 
         @Provides
         @Singleton
-        fun provideSocket(): CocketClient {
+        fun provideSocket(): SocketClient {
             val options = IO.Options.builder()
                 .setQuery("token=${ChatApplication.accessToken!!}")
                 .build()
-            return CocketClient.Builder().baseUrl(BASE_URL).options(options).build()
+            return SocketClient.Builder().baseUrl(BASE_URL).options(options).build()
         }
 
         @Provides
         @Singleton
-        fun provideChatSocket(socket: CocketClient): ChatService {
+        fun provideChatSocket(socket: SocketClient): ChatService {
             return socket.create(ChatService::class.java)
         }
     }

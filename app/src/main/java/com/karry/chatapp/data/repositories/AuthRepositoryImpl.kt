@@ -3,6 +3,7 @@ package com.karry.chatapp.data.repositories
 import com.karry.chatapp.data.remote.api.AuthApi
 import com.karry.chatapp.data.remote.dto.request.CreateUserRequest
 import com.karry.chatapp.data.remote.dto.request.LoginRequest
+import com.karry.chatapp.data.remote.dto.response.ConversationResponse
 import com.karry.chatapp.data.remote.dto.response.LoginResponse
 import com.karry.chatapp.data.remote.dto.response.MessageResponse
 import com.karry.chatapp.domain.repositories.AuthRepository
@@ -23,6 +24,10 @@ class AuthRepositoryImpl @Inject constructor(private val authApi: AuthApi) : Aut
 
     override suspend fun getAllMessages(token: String, id: Int): List<MessageResponse> {
         return authApi.getAllMessages(token, id)
+    }
+
+    override suspend fun getAllConversations(token: String): List<ConversationResponse> {
+        return authApi.getAllConversations(token)
     }
 
     override suspend fun logout(token: String) {

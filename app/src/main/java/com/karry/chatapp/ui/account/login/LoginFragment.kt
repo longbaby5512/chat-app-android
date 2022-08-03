@@ -5,17 +5,18 @@ import android.text.TextUtils
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.SavedStateHandle
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.hoc081098.viewbindingdelegate.viewBinding
-import com.karry.chaotic.Chaotic
 import com.karry.chatapp.ChatApplication
 import com.karry.chatapp.R
 import com.karry.chatapp.databinding.FragmentLoginBinding
-import com.karry.chatapp.utils.*
+import com.karry.chatapp.utils.KEY_ACCESS_TOKEN
+import com.karry.chatapp.utils.KEY_CURRENT_USER
+import com.karry.chatapp.utils.KEY_REFRESH_TOKEN
+import com.karry.chatapp.utils.KEY_SECRET_CRYPTO
 import com.karry.chatapp.utils.extentions.*
 import com.karry.chatapp.utils.storage.Storage
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,10 +30,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     @Inject
     lateinit var storage: Storage
 
-    @Inject
-    lateinit var cypher: Chaotic
-
-    private val loginViewModel: LoginViewModel by activityViewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
 
 
     private val binding by viewBinding<FragmentLoginBinding> {
@@ -114,10 +112,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             loginViewModel.state.collect {
                 with(it) {
                     loading(isLoading)
-                    if (TextUtils.isEmpty(error)) {
-                        if (error != null) {
-                            toast(error)
-                        }
+                    if (error != null) {
+                        toast(error)
                     }
 
                     if (user.isNotNull() && token.isNotNull() && !TextUtils.isEmpty(token) && !TextUtils.isEmpty(refreshToken)) {

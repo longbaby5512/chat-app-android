@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karry.chaotic.Chaotic
 import com.karry.chaotic.ECDH
+import com.karry.chaotic.Hash
 import com.karry.chaotic.extentions.fromBase64
 import com.karry.chaotic.extentions.toBase64
 import com.karry.chatapp.data.remote.dto.request.LoginRequest
@@ -29,20 +30,7 @@ class LoginViewModel @Inject constructor(
     val state get() = _state.asStateFlow()
 
     fun login(email: String, password: String) {
-        val ecdh = ECDH(password)
-
-        cypher.init(Cipher.ENCRYPT_MODE, password.toByteArray())
-
-        val publicKey = ecdh.publicKey.toBase64()
-        val privateKey = cypher.doFinal(ecdh.privateKey).toBase64()
-
-        val key = Key(
-            privateKey = privateKey,
-            publicKey = publicKey
-        )
-
-
-        val loginRequest = LoginRequest(email, password, key)
+        val loginRequest = LoginRequest(email, password)
         loginUseCase(loginRequest).onEach { result ->
             when (result) {
                 is Resource.Success -> {
