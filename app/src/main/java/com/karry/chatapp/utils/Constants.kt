@@ -1,5 +1,7 @@
 package com.karry.chatapp.utils
 
+import com.karry.chatapp.BuildConfig
+
 const val CHANNEL_ID = "karry"
 
 // flag to identify whether to show single line
@@ -15,7 +17,7 @@ const val PUSH_TYPE_USER = 2
 const val NOTIFICATION_ID = 100
 const val NOTIFICATION_ID_BIG_IMAGE = 101
 
-const val BASE_URL = "http://192.168.0.124:3000/v1/"
+const val BASE_URL: String = BuildConfig.BASE_URL
 
 const val SEND_MESSAGE = "send_message"
 const val RECEIVE_MESSAGE = "receive_message"

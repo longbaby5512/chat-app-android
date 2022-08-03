@@ -18,9 +18,7 @@ class SignUpUseCase @Inject constructor(private val authRepository: AuthReposito
         } catch (e: HttpException) {
             emit(Resource.Error(e.message()))
         } catch (e: IOException) {
-            emit(Resource.Error(e.message ?: "Error"))
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message ?: "Error"))
+            emit(Resource.Error(e.message ?: "Something went wrong"))
         }
     }
 }

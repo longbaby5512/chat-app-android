@@ -5,32 +5,32 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hoc081098.viewbindingdelegate.viewBinding
-import com.karry.chaotic.Chaotic
 import com.karry.chatapp.ChatApplication
 import com.karry.chatapp.R
 import com.karry.chatapp.databinding.FragmentHomeBinding
+import com.karry.chatapp.ui.chat.home.adapter.ConversationAdapter
 import com.karry.chatapp.utils.extentions.setTitle
 import com.karry.chatapp.utils.extentions.showActionBar
-import com.karry.chatapp.utils.storage.Storage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.crypto.Cipher
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
-    @Inject
-    lateinit var storage: Storage
-
-    @Inject
-    lateinit var cypher: Chaotic
+    private var adapter: ConversationAdapter? = null
+    private val viewModel: HomeViewModel by activityViewModels()
 
     private val binding by viewBinding<FragmentHomeBinding>() {
         btnNewMessage.setOnClickListener(null)
+        adapter = null
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,23 +38,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         setTitle(ChatApplication.currentUser?.name ?: getString(R.string.app_name))
 
+        adapter = ConversationAdapter() {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToChatFragment(it))
+        }
+
+        val llm = LinearLayoutManager(context)
+        binding.rvConversations.layoutManager = llm
+        binding.rvConversations.adapter = adapter
+
         with(binding) {
             btnNewMessage.setOnClickListener {
                 findNavController().navigate(R.id.action_homeFragment_to_userListFragment)
             }
         }
 
-        val origin = "HomeFragment"
-        val key = "Key"
-        Timber.d("Origin: $origin")
-        cypher.init(Cipher.ENCRYPT_MODE, key.toByteArray())
-        lifecycleScope.launchWhenCreated {
-            val encrypted = cypher.doFinal(origin.toByteArray())
-            Timber.d("Encrypted: ${String(encrypted)}")
-            cypher.init(Cipher.DECRYPT_MODE, key.toByteArray())
-            val decrypted = cypher.doFinal(encrypted)
-            Timber.d("Decrypted: ${String(decrypted)}")
+        lifecycleScope.launch(Dispatchers.Main) {
+            viewModel.state.collect { state ->
+                Timber.d("state: $state")
 
+                with(state) {
+                    loading(isLoading, isEmpty)
+                    if (conversations.isNotEmpty()) {
+                        adapter!!.submitList(conversations)
+                    }
+                }
+            }
         }
 
     }
@@ -69,6 +77,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onResume() {
         super.onResume()
         showActionBar()
+    }
+
+    private fun loading(isLoading: Boolean, isEmpty: Boolean) {
+        with(binding) {
+            homeProgress.visibility = if (isLoading) View.VISIBLE else View.GONE
+            homeEmptyText.visibility = if (isEmpty) View.VISIBLE else View.GONE
+
+            btnNewMessage.visibility = if (isLoading) View.GONE else View.VISIBLE
+
+            if (!isLoading && !isEmpty) {
+                homeContainer.visibility = View.VISIBLE
+            } else {
+                homeContainer.visibility = View.GONE
+            }
+        }
     }
 
 

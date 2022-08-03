@@ -27,6 +27,10 @@ class ChatViewModel @Inject constructor(
     private var _state = MutableStateFlow(ChatState())
     val state get() = _state.asStateFlow()
 
+    init {
+        connectSocket()
+    }
+
 
     fun getAllMessages(token: String, id: Int, key: String) {
         getAllMessagesUseCase(token, id, key).onEach { result ->
@@ -57,7 +61,7 @@ class ChatViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun connectSocket() {
+    private fun connectSocket() {
         viewModelScope.launch {
             connectToServiceUseCase()
             receiveMessageUseCase().collect {
@@ -100,7 +104,11 @@ class ChatViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun disconnectSocket() = viewModelScope.launch {
+    private fun disconnectSocket() = viewModelScope.launch {
         disconnectSocketUseCase()
+    }
+    override fun onCleared() {
+        super.onCleared()
+        disconnectSocket()
     }
 }

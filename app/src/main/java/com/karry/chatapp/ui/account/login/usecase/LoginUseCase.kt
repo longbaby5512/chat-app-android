@@ -16,14 +16,11 @@ class LoginUseCase @Inject constructor(private val authRepository: AuthRepositor
         try {
             emit(Resource.Loading)
             val response = authRepository.login(inputs)
-            Timber.d("Login response: $response")
             emit(Resource.Success(response))
         } catch (e: HttpException) {
             emit(Resource.Error(e.message()))
         } catch (e: IOException) {
-            emit(Resource.Error("Couldn't reach server. Check your internet connection."))
-        } catch (e: Exception) {
-            emit(Resource.Error("Something went wrong. Please try again later."))
+            emit(Resource.Error(e.message ?: "Couldn't reach server. Check your internet connection."))
         }
     }
 }

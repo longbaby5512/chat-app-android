@@ -27,8 +27,7 @@ fun String.fromHexString(): ByteArray {
     return result
 }
 
-private const val PASSWORD_PATTERN =
-    "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$"
+private const val PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\$&+,:;=?\\-@^_`|~]).{8,}\$"
 
 fun String.passwordValidator(): Boolean {
     val pattern = Pattern.compile(PASSWORD_PATTERN)

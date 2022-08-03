@@ -2,9 +2,10 @@ package com.karry.chatapp.data.remote.api
 
 import com.karry.chatapp.data.remote.dto.request.MessageSent
 import com.karry.chatapp.data.remote.dto.response.MessageResponse
+import com.karry.chatapp.socketio.annotation.*
 import com.karry.chatapp.utils.RECEIVE_MESSAGE
 import com.karry.chatapp.utils.SEND_MESSAGE
-import com.semicolon.cocket.annotation.*
+import io.socket.client.Socket
 import kotlinx.coroutines.flow.Flow
 
 

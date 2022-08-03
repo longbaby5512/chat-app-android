@@ -7,16 +7,16 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserApi {
-    @GET("user")
+    @GET("v1/user")
     suspend fun getAllUsers(@Header("Authorization") token: String): List<UserResponse>
 
-    @GET("user/{id}")
+    @GET("v1/user/{id}")
     suspend fun getUserById(
         @Header("Authorization") token: String,
         @Path("id") id: Int
     ): UserResponse
 
-    @GET("user/email/{email}")
+    @GET("v1/user/email/{email}")
     suspend fun getUserByEmail(
         @Header("Authorization") token: String,
         @Query("email") email: String

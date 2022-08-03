@@ -9,7 +9,6 @@ import com.karry.chatapp.databinding.ItemChatReceiverBinding
 import com.karry.chatapp.databinding.ItemChatSenderBinding
 import com.karry.chatapp.domain.model.Message
 import com.karry.chatapp.utils.extentions.toLocalDate
-import java.time.format.DateTimeFormatter
 
 class ChatAdapter(private val me: Int, private val onClick: ((Message) -> Unit)) :
     ListAdapter<Message, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
@@ -87,7 +86,7 @@ class ChatAdapter(private val me: Int, private val onClick: ((Message) -> Unit))
             }
 
             override fun areContentsTheSame(oldItem: Message, newItem: Message): Boolean {
-                return oldItem.content == newItem.content
+                return oldItem == newItem
             }
         }
 

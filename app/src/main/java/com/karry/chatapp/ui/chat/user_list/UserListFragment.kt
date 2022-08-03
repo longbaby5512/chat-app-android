@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hoc081098.viewbindingdelegate.viewBinding
 import com.karry.chatapp.ChatApplication
-import com.karry.chatapp.ChatApplication.Companion.accessToken
 import com.karry.chatapp.R
 import com.karry.chatapp.databinding.FragmentUserListBinding
 import com.karry.chatapp.ui.chat.user_list.adapter.UserAdapter
@@ -45,7 +44,6 @@ class UserListFragment : Fragment(R.layout.fragment_user_list) {
 
         binding.rvUsers.adapter = adapter
 
-        viewModel.getAllUsers(accessToken!!)
         lifecycleScope.launch(Dispatchers.Main) {
             viewModel.state.collect { state ->
                 with(state) {
