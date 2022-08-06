@@ -32,15 +32,35 @@ doubles Logistic::key(const bytes &digest) {
     doubles key;
     byte x = digest[0];
     byte m = digest[1];
+    int iter = 0;
     for (auto i = 0; i < digest.size(); i += 2) {
         x = x ^ digest[i];
         m = m ^ digest[i + 1];
+        iter += digest[i] + digest[i + 1];
     }
 
-    // x between 0 and 1
-    key.push_back(x / 255.0);
-    key.push_back(3.7 + m / 255.0 * 0.3);
-    if ( key[0] <= 0 || key[0] >= 1) {
+    double x_ = x / 255.0;
+    double m_ = m / 255.0;
+
+    double r = 3.7 + x / 255.0 * m / 255.0 * 0.3;
+
+    if (x_ <= 0 || x_ >= 1)
+        x_ = 0.5;
+
+    if (m_ < 0 || m_ > 1)
+        m_ = 0.5;
+
+    if (r < 3.7 || r > 4)
+        r = 3.99999;
+
+    for (auto i = 0; i < iter + x + m; ++i) {
+        x_ = r * x_ * (1 - x_);
+        m_ = r * m_ * (1 - m_);
+    }
+
+    key.push_back(x_);
+    key.push_back(3.7 + m_ * 0.3);
+    if (key[0] <= 0 || key[0] >= 1) {
         key[0] = 0.5;
     }
     if (key[1] < 3.7 || key[1] > 4) {
@@ -82,18 +102,38 @@ doubles Sin::key(const bytes & digest) {
     doubles key;
     byte x = digest[0];
     byte m = digest[1];
+    int iter = 0;
     for (auto i = 0; i < digest.size(); i += 2) {
         x = x ^ digest[i];
         m = m ^ digest[i + 1];
+        iter += digest[i] + digest[i + 1];
     }
 
-    // x between 0 and 1
-    key.push_back(x / 255.0);
-    key.push_back(m / 255.0);
+    double x_ = x / 255.0;
+    double m_ = m / 255.0;
+
+    double r = x / 255.0 * m / 255.0;
+
+    if (x_ <= 0 || x_ >= 1)
+        x_ = 0.5;
+
+    if (m_ < 0 || m_ > 1)
+        m_ = 0.5;
+
+    if (r < 0 || r > 1)
+        r = 0.5;
+
+    for (auto i = 0; i < iter + x + m; ++i) {
+        x_ =  r * sin(M_PI * x_);
+        m_ = r * sin(M_PI * m_);
+    }
+
+    key.push_back(x_);
+    key.push_back(m_);
     if (key[0] <= 0 || key[0] >= 1) {
         key[0] = 0.5;
     }
-    if (key[1] <= 0 || key[1] >= 1) {
+    if (key[1] < 0 || key[1] > 1) {
         key[1] = 0.5;
     }
     return key;

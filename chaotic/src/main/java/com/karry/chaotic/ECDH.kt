@@ -9,7 +9,7 @@ import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.KeyAgreement
 
-class ECDH(password: String) {
+class ECDH {
     private var keyPair: KeyPair
 
     init {
@@ -17,7 +17,7 @@ class ECDH(password: String) {
         Security.addProvider(bouncyCastleProvider)
         val spec = ECGenParameterSpec("secp256k1")
         val generator = KeyPairGenerator.getInstance("EC", bouncyCastleProvider)
-        generator.initialize(spec, SecureRandom(password.toByteArray()))
+        generator.initialize(spec)
         keyPair = generator.generateKeyPair()
 
     }

@@ -104,11 +104,8 @@ class ChatViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun disconnectSocket() = viewModelScope.launch {
+    fun disconnectSocket() = viewModelScope.launch {
         disconnectSocketUseCase()
     }
-    override fun onCleared() {
-        super.onCleared()
-        disconnectSocket()
-    }
+
 }

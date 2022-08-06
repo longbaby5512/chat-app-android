@@ -30,6 +30,7 @@ import timber.log.Timber
 class ChatFragment : Fragment(R.layout.fragment_chat) {
     private val binding: FragmentChatBinding by viewBinding() {
         adapter = null
+        viewModel.disconnectSocket()
     }
     private var adapter: ChatAdapter? = null
     private val viewModel: ChatViewModel by viewModels()

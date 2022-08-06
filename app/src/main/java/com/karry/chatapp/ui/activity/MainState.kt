@@ -1,4 +1,4 @@
-package com.karry.chatapp.activity
+package com.karry.chatapp.ui.activity
 
 data class MainState(
     val isLoading: Boolean = false,

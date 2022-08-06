@@ -3,14 +3,11 @@ package com.karry.chatapp.ui.account.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karry.chaotic.Chaotic
-import com.karry.chaotic.ECDH
-import com.karry.chaotic.Hash
 import com.karry.chaotic.extentions.fromBase64
 import com.karry.chaotic.extentions.toBase64
 import com.karry.chatapp.data.remote.dto.request.LoginRequest
 import com.karry.chatapp.data.remote.dto.response.toKey
 import com.karry.chatapp.data.remote.dto.response.toUser
-import com.karry.chatapp.domain.model.Key
 import com.karry.chatapp.ui.account.login.usecase.LoginUseCase
 import com.karry.chatapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
