@@ -1,14 +1,13 @@
-package com.karry.chatapp.activity.usecase
+package com.karry.chatapp.ui.activity.usecase
 
 import com.karry.chatapp.domain.repositories.AuthRepository
 import com.karry.chatapp.utils.Resource
-import com.karry.chatapp.utils.storage.Storage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class LogoutUseCase @Inject constructor(private val authRepository: AuthRepository, storage: Storage) {
+class LogoutUseCase @Inject constructor(private val authRepository: AuthRepository) {
     operator fun invoke(token: String): Flow<Resource<Unit>> = flow {
         emit(Resource.Loading)
         try {

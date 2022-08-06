@@ -1,4 +1,4 @@
-package com.karry.chatapp.activity
+package com.karry.chatapp.ui.activity
 
 import android.os.Bundle
 import android.view.MenuItem

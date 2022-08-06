@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karry.chaotic.Chaotic
 import com.karry.chaotic.ECDH
-import com.karry.chaotic.Hash
 import com.karry.chaotic.extentions.toBase64
 import com.karry.chatapp.data.remote.dto.request.CreateUserRequest
 import com.karry.chatapp.domain.model.Key
@@ -27,7 +26,7 @@ class SignUpViewModel @Inject constructor(
     val state get() = _state.asStateFlow()
 
     fun signUp(name: String, email: String, password: String) {
-        val ecdh = ECDH(password)
+        val ecdh = ECDH()
 
         cypher.init(Cipher.ENCRYPT_MODE, password.toByteArray())
 

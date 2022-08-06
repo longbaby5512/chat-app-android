@@ -1,8 +1,8 @@
-package com.karry.chatapp.activity
+package com.karry.chatapp.ui.activity
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karry.chatapp.activity.usecase.LogoutUseCase
+import com.karry.chatapp.ui.activity.usecase.LogoutUseCase
 import com.karry.chatapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
