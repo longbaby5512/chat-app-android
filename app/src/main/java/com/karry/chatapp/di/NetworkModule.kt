@@ -56,9 +56,9 @@ abstract class NetworkModule {
         @Singleton
         internal fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
             return OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
                 .addInterceptor(interceptor)
                 .retryOnConnectionFailure(true)
                 .build()

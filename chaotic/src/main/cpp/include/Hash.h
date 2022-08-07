@@ -9,8 +9,9 @@
 
 class Hash {
 public:
+    virtual ~Hash() = default;
+
     virtual void update(const byte*, size_t) = 0;
-    virtual void update(const std::string&) = 0;
     virtual void update(const bytes&) = 0;
 
     virtual bytes digest() = 0;
@@ -20,12 +21,10 @@ public:
 class SHA256: public Hash {
 public:
     explicit SHA256();
+    ~SHA256() override = default;
 
     void update(const byte *, size_t) override;
-
     void update(const bytes &) override;
-
-    void update(const std::string &) override;
 
     bytes digest() override;
 

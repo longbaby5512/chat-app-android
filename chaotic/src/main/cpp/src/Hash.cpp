@@ -32,10 +32,6 @@ void SHA256::update(const bytes& data) {
     update(data.data(), data.size());
 }
 
-void SHA256::update(const std::string& data) {
-    update(reinterpret_cast<const byte*> (data.c_str()), data.size());
-}
-
 bytes SHA256::digest() {
     bytes hash(32);
 

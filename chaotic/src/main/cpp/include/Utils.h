@@ -44,10 +44,8 @@ std::string to_string(std::vector<T> v) {
     return ss.str();
 }
 
-std::string byte2hex(const bytes &);
-bytes hex2byte(const std::string &);
-std::string bytes2string(const bytes &);
-bytes string2bytes(const std::string &);
+std::vector<byte> convertDoubleToByteArray(double);
+double convertByteArrayToDouble(const std::vector<byte> &);
 
 template<typename ForwardIterator, typename Compare=std::less<typename std::iterator_traits<ForwardIterator>::value_type>>
 std::vector<size_t> argsort(ForwardIterator first, ForwardIterator last, Compare comp = Compare()) {
@@ -63,6 +61,11 @@ std::vector<size_t> argsort(ForwardIterator first, ForwardIterator last, Compare
 template<typename Base, typename T>
 inline bool instanceof(std::unique_ptr<T> &ptr) {
     return dynamic_cast<Base *>(ptr.get()) != nullptr;
+}
+
+template<typename T>
+void convertBetween(T &value, const T& minSrc, const T& maxSrc, const T &minDes, const T &maxDes) {
+    value =  minDes + std::fmod(value - minSrc, maxSrc - minSrc) * (maxDes - minDes) / (maxSrc - minSrc);
 }
 
 #endif //CHAT_APP_UTILS_H

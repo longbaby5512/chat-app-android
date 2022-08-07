@@ -36,3 +36,22 @@ bytes string2bytes(const std::string& data) {
     });
     return res;
 }
+
+bytes convertDoubleToByteArray(double data) {
+    bytes res(sizeof(double));
+    auto *ptr = reinterpret_cast<byte *>(&data);
+    for (int i = 0; i < sizeof(double); ++i) {
+        res[i] = ptr[i];
+    }
+    return res;
+}
+
+double convertByteArrayToDouble(const bytes & data) {
+    assert(data.size() == sizeof(double));
+    double res = 0;
+    auto *ptr = reinterpret_cast<byte *>(&res);
+    for (int i = 0; i < sizeof(double); ++i) {
+        ptr[i] = data[i];
+    }
+    return res;
+}
