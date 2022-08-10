@@ -55,3 +55,10 @@ double convertByteArrayToDouble(const bytes & data) {
     }
     return res;
 }
+
+double xorDouble(double a, double b) {
+    unsigned long long a_ = *reinterpret_cast<unsigned long long *>(&a);
+    unsigned long long b_ = *reinterpret_cast<unsigned long long *>(&b);
+    unsigned long long res = a_ ^ b_;
+    return *reinterpret_cast<double *>(&res);
+}

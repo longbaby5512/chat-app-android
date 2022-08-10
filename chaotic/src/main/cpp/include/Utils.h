@@ -68,4 +68,6 @@ void convertBetween(T &value, const T& minSrc, const T& maxSrc, const T &minDes,
     value =  minDes + std::fmod(value - minSrc, maxSrc - minSrc) * (maxDes - minDes) / (maxSrc - minSrc);
 }
 
+double xorDouble(double a, double b);
+
 #endif //CHAT_APP_UTILS_H
